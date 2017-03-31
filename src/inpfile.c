@@ -61,6 +61,9 @@ void  saveauxdata(FILE *f)                                                     /
    char  s[MAXLINE+1];
 
    sect = -1;
+   if(InFile == NULL) {
+     return;
+   }
    rewind(InFile);
    while (fgets(line,MAXLINE,InFile) != NULL)
    {
@@ -76,7 +79,7 @@ void  saveauxdata(FILE *f)                                                     /
             if (sect == _END) break;
             switch(sect)
             {
-               case _RULES:
+               //case _RULES:
                case _COORDS: if (Coordflag == FALSE)
                              {
                                  fprintf(f, "%s", line);
@@ -95,12 +98,12 @@ void  saveauxdata(FILE *f)                                                     /
    /* Write lines appearing in the section to file */
       switch(sect)
       {
-          case _RULES:
-               case _COORDS: if (Coordflag == FALSE)
-                             {
-                                 fprintf(f, "%s", line);
-                             }
-                             break;
+          //case _RULES:
+           case _COORDS: if (Coordflag == FALSE)
+                         {
+                             fprintf(f, "%s", line);
+                         }
+                         break;
           case _VERTICES:
           case _LABELS:
           case _BACKDROP:
@@ -120,6 +123,7 @@ int  saveinpfile(char *fname)
 */
 {
    int     i,j,n;
+   int     errcode; 
    double  d,kc,ke,km,ucf;
    char    s[MAXLINE+1], s1[MAXLINE+1], s2[MAXLINE+1];
    Pdemand demand;
@@ -648,4 +652,3 @@ int  saveinpfile(char *fname)
    fclose(f);
    return(0);
 }
-
