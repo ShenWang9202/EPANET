@@ -180,12 +180,6 @@ typedef enum {
   EN_FLOWPACED   = 3
 } EN_SourceType;
 
-typedef enum {          /* Head loss formula:                  */
-  EN_HW          = 0,    /*   Hazen-Williams                    */
-  EN_DW          = 1,    /*   Darcy-Weisbach                    */
-  EN_CM          = 2     /*   Chezy-Manning                     */
-} EN_FormType;           /* See FormType in TYPES.H             */
-
 typedef enum {
   EN_CFS         = 0,    /* Flow units types.   */
   EN_GPM         = 1,    /* See FlowUnitsType   */

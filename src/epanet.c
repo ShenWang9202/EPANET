@@ -818,7 +818,6 @@ int DLLEXPORT ENgetcount(int code, int *count)
       case EN_PATCOUNT:     *count = Npats;     break;
       case EN_CURVECOUNT:   *count = Ncurves;   break;
       case EN_CONTROLCOUNT: *count = Ncontrols; break;
-	  case EN_RULECOUNT:    *count = Nrules;    break;
       default: return(251);
    }
    return(0);
