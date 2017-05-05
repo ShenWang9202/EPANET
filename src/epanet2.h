@@ -145,7 +145,8 @@ typedef enum {
   EN_LINKCOUNT    = 2,   /**< Number of Links (Pipes + Pumps + Valves) */
   EN_PATCOUNT     = 3,   /**< Number of Time Patterns */
   EN_CURVECOUNT   = 4,   /**< Number of Curves */
-  EN_CONTROLCOUNT = 5    /**< Number of Control Statements */
+  EN_CONTROLCOUNT = 5,   /**< Number of Control Statements */
+  EN_RULECOUNT 	  = 6 	 /**< Number of Rule-based Control Statements */
 } EN_CountType;
 
 typedef enum {
