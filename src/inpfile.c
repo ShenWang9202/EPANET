@@ -61,9 +61,6 @@ void  saveauxdata(FILE *f)                                                     /
    char  s[MAXLINE+1];
 
    sect = -1;
-   if(InFile == NULL) {
-     return;
-   }
    rewind(InFile);
    while (fgets(line,MAXLINE,InFile) != NULL)
    {
@@ -99,11 +96,11 @@ void  saveauxdata(FILE *f)                                                     /
       switch(sect)
       {
           //case _RULES:
-           case _COORDS: if (Coordflag == FALSE)
-                         {
-                             fprintf(f, "%s", line);
-                         }
-                         break;
+               case _COORDS: if (Coordflag == FALSE)
+                             {
+                                 fprintf(f, "%s", line);
+                             }
+                             break;
           case _VERTICES:
           case _LABELS:
           case _BACKDROP:
@@ -123,7 +120,7 @@ int  saveinpfile(char *fname)
 */
 {
    int     i,j,n;
-   int     errcode; 
+   int     errcode;
    double  d,kc,ke,km,ucf;
    char    s[MAXLINE+1], s1[MAXLINE+1], s2[MAXLINE+1];
    Pdemand demand;
@@ -424,6 +421,17 @@ int  saveinpfile(char *fname)
       }
    }            
 
+    /*moved after control section */
+   fprintf(f, "\n\n[RULES]");
+   for (i=1; i<=Nrules; i++)
+   {  
+	  fprintf(f, "\nRULE %s",Rule[i].label);
+	  errcode = writeRuleinInp(f, i);
+	  fprintf(f, "\n");
+   }
+   //fprintf(f, "\n\n");
+   /* end move after control section */ 
+
 /* Write [QUALITY] section */
 /* (Skip nodes with default quality of 0) */
 
@@ -626,6 +634,17 @@ int  saveinpfile(char *fname)
       else fprintf(f, "\n %-20sNO", Field[i].Name);
    }
    fprintf(f, "\n\n");
+
+    /*moved after control section 
+   fprintf(f, "\n\n[RULES]");
+   for (i=1; i<=Nrules; i++)
+   {  
+	  fprintf(f, "\nRULE %s",Rule[i].label);
+	  errcode = writeRuleinInp(f, i);
+	  fprintf(f, "\n");
+   }
+   fprintf(f, "\n\n");
+   end move after control section  */
 
 /* Write [COORDINATES] section */
 
