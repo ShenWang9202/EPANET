@@ -1744,6 +1744,7 @@ int DLLEXPORT ENsetnodevalue(int index, int code, EN_API_FLOAT_TYPE v)
          {
             value /= Ucf[ELEV];
             Tank[j].A = PI*SQR(value)/4.0;
+            
             Tank[j].Vmin = tankvolume(j, Tank[j].Hmin);
             Tank[j].V0 = tankvolume(j, Tank[j].H0);
             Tank[j].Vmax = tankvolume(j, Tank[j].Hmax);
@@ -2326,10 +2327,12 @@ int  DLLEXPORT ENsetqualtype(int qualcode, char *chemname, char *chemunits, char
 {
 /*** Updated 3/1/01 ***/
    double ccf = 1.0;
-
+   int i;
+   
    if (!Openflag) return(102);
    if (qualcode < EN_NONE || qualcode > EN_TRACE) return(251);
    Qualflag = (char)qualcode;
+   Ctol *= Ucf[QUALITY];
    if (Qualflag == CHEM)                   /* Chemical constituent */
    {
       strncpy(ChemName,chemname,MAXID);
@@ -2340,7 +2343,7 @@ int  DLLEXPORT ENsetqualtype(int qualcode, char *chemname, char *chemunits, char
       strncpy(Field[REACTRATE].Units,ChemUnits,MAXID);
       strcat(Field[REACTRATE].Units,t_PERDAY);
       ccf =  1.0/LperFT3;
-
+        
    }
    if (Qualflag == TRACE)                  /* Source tracing option */
    {
@@ -2361,11 +2364,21 @@ int  DLLEXPORT ENsetqualtype(int qualcode, char *chemname, char *chemunits, char
       strcpy(Field[QUALITY].Units,u_HOURS);
    }
 
+   if ((Qualflag == AGE || Qualflag == TRACE) & (Ucf[QUALITY] != 1))
+   {
+      for (i=1; i<=Nnodes; i++)
+      {
+         Node[i].C0 *= Ucf[QUALITY];
+      }   
+   }
+   
 /*** Updated 3/1/01 ***/
    Ucf[QUALITY]   = ccf;
    Ucf[LINKQUAL]  = ccf;
    Ucf[REACTRATE] = ccf;
 
+   Ctol /= Ucf[QUALITY];
+   
    return(0);
 }
 
